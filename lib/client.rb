@@ -85,10 +85,11 @@ module Jenkins2API
     # Creates a new request for the API call
     # with default and required values
     def new_request(method, path, response_type, **opts)
-      response_type = :json unless %i[json raw].include?(response_type)
+      response_type = :json unless %i[json raw xml].include?(response_type)
 
       parts = [@server, URI.escape(path)]
       parts << 'api/json' if response_type == :json
+      parts << 'api/xml' if response_type == :xml
       uri = URI(File.join(parts))
       uri.query = URI.encode_www_form(opts)
 
